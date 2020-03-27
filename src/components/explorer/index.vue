@@ -1,0 +1,53 @@
+<template>
+  <el-container>
+    <el-header v-bind:style="head_bar_style" id="head_bar" class="head_bar">
+      <head_bar></head_bar>
+    </el-header>
+    <el-container>
+      <el-aside width="201px" style="height:calc(100vh - 60px);">
+        <side_bar></side_bar>
+      </el-aside>
+      <el-main  style="background-color: #FFFFFF">
+        <fileList></fileList>
+      </el-main>
+    </el-container>
+  </el-container>
+</template>
+
+<script>
+  import side_bar from './SideBar'
+  import head_bar from './HeadBar'
+  import fileList from './fileList'
+  export default {
+    name: "explorer_index",
+    data() {
+      return{
+        head_bar_style: ""
+      }
+    },
+    components: {
+      side_bar,
+      head_bar,
+      fileList
+    },
+    methods: {
+      test(){
+        document.querySelector('#')
+      }
+    }
+  }
+</script>
+
+<style>
+  .head_bar{
+    background-color: #409EFF;
+    position: relative;
+  }
+  .file_icon{
+    font-size: 50px;
+  }
+  .file_text{
+    margin-top: 10px;
+    font-size: 15px;
+  }
+</style>
