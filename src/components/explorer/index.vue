@@ -7,7 +7,7 @@
       <el-aside width="201px" style="height:calc(100vh - 60px);">
         <side_bar></side_bar>
       </el-aside>
-      <el-main  style="background-color: #FFFFFF">
+      <el-main  style="background-color: #FFFFFF;padding: 0 20px">
         <fileList></fileList>
       </el-main>
     </el-container>

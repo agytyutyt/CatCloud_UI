@@ -1,9 +1,6 @@
 <template>
   <div>
-    <div v-for="(item , index) in semesterSelection" @click="changSemester(index)" :key="index"
-         :class="1===1?'blue':''">
-      <p>{{ item.name }}</p>
-    </div>
+    <el-button @click="subStrTest">123425</el-button>
   </div>
 </template>
 
@@ -11,19 +8,32 @@
   export default {
     data() {
       return {
-        semesterSelection: [
-          {name: 'xyz'},
-          {name: 'lm'}
-        ],
-        i: 0
+        str: "/home/drcat/frp/config",
+        input: "",
+        result: "",
+        count: 1
       }
     },
     methods: {
-      //点击改变文字颜色
-      changSemester(index) {
-        this.i = index;
+      search: function () {
+        let index=this.str.lastIndexOf(this.input);
+        let result=this.str.substr(0,index+this.input.length);
+        this.result=result;
+      },
+      increase: function () {
+        this.count++;
+      },
+      subStrTest: function () {
+        let str = "";
+        let result=str.split("/");
+        console.log(result);
       }
     },
+    computed:{
+      computeStoreValue(){
+        return this.$store.state.count
+      }
+    }
   }
 </script>
 

@@ -5,9 +5,10 @@
 </template>
 
 <script>
-  import myCom from '@/components/myCom'
+  import store from './utils/store'
 export default {
-  name: 'myCom'
+  name: 'myCom',
+  store,
 }
 </script>
 
