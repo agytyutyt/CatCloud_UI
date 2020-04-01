@@ -59,15 +59,22 @@
       enterFile: function(dirName){
         clearTimeout(time);  //清除
         this.$store.commit("enterDir",dirName);
-        this.dir=this.getDir2;    //获取文件列表数据h
+        //this.dir=this.getDir2;    //获取文件列表数据h
       },
       checked: function (obj) {
       },
       goBack: function () {
-        // console.log(this.dir);
         this.$store.commit("lastDir");
-        this.dir=this.getDir1;
-        // console.log(this.getDir1);
+      },
+      updateDir(){
+        let dirName=this.$store.state.currentDir;
+        console.log("updateDir: "+dirName);
+        if(dirName==="" || dirName==="/"){
+          return this.getDir1;
+        }
+        else{
+          return this.getDir2;
+        }
       }
     },
     computed:{
@@ -76,6 +83,14 @@
       },
       getDir2() {
         return this.$store.state.dir2;
+      },
+      getCurrentDir() {
+        return this.$store.state.currentDir;
+      }
+    },
+    watch: {
+      getCurrentDir(val){
+        this.dir=this.updateDir();
       }
     },
     data() {
