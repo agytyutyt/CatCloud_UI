@@ -1,22 +1,46 @@
 <template>
-  <el-row class="border">
+  <el-row class="border" type="flex" justify="start" :gutter="10">
+
+    <el-col :span="2" >
+      <el-button type="primary" class="uploadButton" round><i class="el-icon-download"></i>下载</el-button>
+    </el-col>
+
     <el-col :span="2">
-      <div>
-        <el-button type="text" @click="goBack" class="el-icon-d-arrow-left el-button-backButton"> 返回</el-button>
+      <el-button type="primary" class="uploadButton" round><i class="el-icon-upload"></i>上传</el-button>
+    </el-col>
+
+    <el-col :span="11" :offset="0">
+      <div class="addressBar">
+<!--        <span style="float: left;line-height: 20px;margin-right: 20px;margin-left: 20px;">当前位置: </span>-->
+<!--        <el-breadcrumb separator-class="el-icon-arrow-right" class="el-breadcrumb">-->
+<!--          <el-breadcrumb-item class="my-breadcrumb" v-for="(item,index) in getRoute" :key="index" ><span @click="goBackTo(item)">{{item}}</span></el-breadcrumb-item>-->
+<!--        </el-breadcrumb>-->
+
+          <el-input class="address" v-model="dirPath" placeholder="请输入路径" @keyup.enter.native="enterDir()"  style="height: 20px;">
+            <template slot="prepend" style="height: 20px;">当前位置：</template>
+            <el-button slot="append" icon="el-icon-top" class="el-button-goBackButton" @click="goBack" style="font-weight: 900; height: 20px;"></el-button>
+          </el-input>
       </div>
     </el-col>
-    <el-col :span="22">
-      <div>
-        <span style="float: left;line-height: 30px;margin-right: 20px;margin-left: 20px;">当前位置: </span>
-        <el-breadcrumb separator-class="el-icon-arrow-right" class="el-breadcrumb">
-          <el-breadcrumb-item class="my-breadcrumb" v-for="(item,index) in getRoute" :key="index" ><span @click="goBackTo(item)">{{item}}</span></el-breadcrumb-item>
-        </el-breadcrumb>
-      </div>
+
+    <el-col :span="4" :offset="4">
+      <el-form ref="form" :model="form">
+        <el-input v-model="form.findFileName" placeholder="请输入文件名" class="searchInput" prefix-icon="el-icon-search"></el-input>
+      </el-form>
+    </el-col>
+    <el-col :span="1" :offset="0">
+      <el-button type="primary" icon="el-icon-search" style="height: 30px;width: 30px;margin-top: 5px;" circle></el-button>
     </el-col>
   </el-row>
 </template>
 
 <script>
+  /**
+   * 路径更新逻辑:
+   * 1、渲染组件时通过vuex获取当前路径并进行初始化
+   * 2、利用computed返回vuex中的路径值
+   * 3、通过watch属性监听computed中相关返回值，当路径值变化时更新dirPath的值。
+   */
   export default {
     name: "border",
     methods: {
@@ -26,54 +50,71 @@
       goBackTo: function(dirName) {
         this.$store.commit("lastDir",dirName);
       },
-
+      addressBarFocusIn(){
+        console.log("!!!!");
+      },
+      addressBarFocusOut(){
+        console.log("????");
+      },
+      enterDir(){
+        this.$store.commit("gotoDir",this.dirPath);
+      }
     },
     data() {
       return {
+        dirPath: "",
+        form: {
+          findFileName:""
+        }
       }
     },
     computed: {
       getRoute: function () {
-        let result = this.$store.getters.getRoute;
-        result[0]="/";
-        return result;
+        return this.$store.state.currentDir;
+      },
+    },
+    watch: {
+      getRoute(val){
+        if(val==="") this.dirPath="/";
+        else this.dirPath=val;
       }
     },
     created() {
-
+      this.dirPath=this.getRoute;
+      if(this.dirPath==="") this.dirPath="/";
     }
   }
 </script>
 
 <style scoped>
   .border{
-    border-bottom: 1px solid #cbcbcb;
-    height: 50px;
+    border-bottom: 1px solid #e5e5e5;
+    height: 40px;
+    padding: 0 20px;
+    background: linear-gradient(to top,#ebebeb,#ffffff);
   }
-  .el-button{
+  .uploadButton{
+    height: 30px;
+    margin: 5px 0;
+  }
+  .addressBar{
+    margin-top: 5px;
+  }
+  .el-button {/*   别动*/
     padding: 0 0;
     width: 100%;
   }
-  .el-button-backButton{
-    font-size: 15px;
-    font-weight: 500;
-    line-height: 30px;
+  .address>>>.el-input__inner{     /* 可用于覆盖 el-input 自带样式 el-input__inner */
+    height: 30px;
+    letter-spacing: 1px;
+  }
+  .el-button-goBackButton{
+    font-size: 18px;
     border-radius: 0;
-    margin: 10px auto;
-    border-right: 2px solid #e3e3e3;
+    margin: 0 auto;
   }
-  .separator{
-    float: right;
-  }
-  .el-breadcrumb{
-    font-size: 15px;
-    margin: 10px 30px;
-    line-height: 30px;
-  }
-  .my-breadcrumb{
-    font-weight: 700;
-    font-size: 17px;
-    cursor:pointer;
-    font-family: Helvetica Neue,Helvetica,PingFang SC,Hiragino Sans GB,Microsoft YaHei,SimSun,sans-serif;
+  .searchInput>>>.el-input__inner{
+    height: 30px;
+    margin: 5px 0;
   }
 </style>

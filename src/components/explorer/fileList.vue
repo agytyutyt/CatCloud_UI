@@ -1,7 +1,8 @@
 <template>
   <el-container>
-    <el-header style="height: auto;">
+    <el-header style="height: auto;padding: 0;">
       <border></border>
+      <ToolBar></ToolBar>
     </el-header>
 
     <el-main>
@@ -33,6 +34,7 @@
 
 <script>
   import border from "./border";
+  import ToolBar from "./ToolBar";
   let time=null;
   export default {
     name: "fileList",
@@ -61,14 +63,11 @@
         this.$store.commit("enterDir",dirName);
         //this.dir=this.getDir2;    //获取文件列表数据h
       },
-      checked: function (obj) {
-      },
       goBack: function () {
         this.$store.commit("lastDir");
       },
       updateDir(){
         let dirName=this.$store.state.currentDir;
-        console.log("updateDir: "+dirName);
         if(dirName==="" || dirName==="/"){
           return this.getDir1;
         }
@@ -103,7 +102,8 @@
       }
     },
     components: {
-      border
+      border,
+      ToolBar
     },
     created: function () {
       this.dir=this.getDir1;

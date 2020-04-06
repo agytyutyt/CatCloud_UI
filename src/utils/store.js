@@ -65,6 +65,7 @@ export default new Vuex.Store({
     },
     gotoDir(state, dirName){
       state.currentDir=dirName;
+      console.log(dirName);
     }
   },
   getters: {

@@ -1,13 +1,13 @@
 <template>
   <el-container>
-    <el-header v-bind:style="head_bar_style" id="head_bar" class="head_bar">
-      <head_bar></head_bar>
-    </el-header>
+<!--    <el-header v-bind:style="head_bar_style" id="head_bar" class="head_bar">-->
+<!--      <head_bar></head_bar>-->
+<!--    </el-header>-->
     <el-container>
-      <el-aside width="201px" style="height:calc(100vh - 60px);">
+      <el-aside width="201px" style="height: 100vh;">
         <side_bar></side_bar>
       </el-aside>
-      <el-main  style="background-color: #FFFFFF;padding: 0 20px">
+      <el-main  style="background-color: #FFFFFF;padding: 0 0;">
         <fileList></fileList>
       </el-main>
     </el-container>
@@ -42,6 +42,7 @@
   .head_bar{
     background-color: #409EFF;
     position: relative;
+    height: 40px;
   }
   .file_icon{
     font-size: 50px;
