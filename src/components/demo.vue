@@ -1,10 +1,12 @@
 <template>
   <div>
-    <el-button @click="subStrTest">123425</el-button>
+    <el-button @click="ajaxTest">123425</el-button>
   </div>
 </template>
 
 <script>
+  // import service from "../utils/axios";
+  import service from "../utils/axios";
   export default {
     data() {
       return {
@@ -27,12 +29,20 @@
         let str = "";
         let result=str.split("/");
         console.log(result);
+      },
+      ajaxTest: function () {
+
       }
     },
     computed:{
       computeStoreValue(){
         return this.$store.state.count
       }
+    },
+    created() {
+      // console.log(this.getRemoteDir("asd"));
+      let res=service.methods.getRemoteDir("asd");
+      console.log(res);
     }
   }
 </script>
