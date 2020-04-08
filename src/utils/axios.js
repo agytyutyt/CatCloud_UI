@@ -1,3 +1,24 @@
 import axios from 'axios';
+import qs from 'qs';
 
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
 
+const service = axios.create({
+  baseURL: 'http://localhost:8080/',
+  timeout: 10000,
+});
+
+export default {
+  service: service,
+  methods:{
+    getRemoteDir: function($msg) {
+      let result;
+      service.post("/hello")
+        .then(res => {
+          result=res;
+          return result;
+        });
+
+    }
+}
+};

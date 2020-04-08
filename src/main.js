@@ -4,9 +4,13 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import Vuex from 'vuex'
+import axiosService from './utils/axios'
 
 Vue.config.productionTip = false;
 Vue.use(Vuex);
+
+Vue.prototype.$service=axiosService.service;
+Vue.prototype.getRemoteDir=axiosService.methods.getRemoteDir;
 
 /* eslint-disable no-new */
 new Vue({
