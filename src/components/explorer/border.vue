@@ -93,6 +93,7 @@
     height: 40px;
     padding: 0 20px;
     background: linear-gradient(to top,#ebebeb,#ffffff);
+    width: 100%;
   }
   .uploadButton{
     height: 30px;
