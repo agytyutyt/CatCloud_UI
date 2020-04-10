@@ -31,7 +31,7 @@
         console.log(result);
       },
       ajaxTest: function () {
-
+        this.$store.dispatch("getLocalDir");
       }
     },
     computed:{
@@ -40,9 +40,6 @@
       }
     },
     created() {
-      // console.log(this.getRemoteDir("asd"));
-      let res=service.methods.getRemoteDir("asd");
-      console.log(res);
     }
   }
 </script>

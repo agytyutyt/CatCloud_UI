@@ -1,21 +1,21 @@
 <template>
   <el-row class="border" type="flex" justify="start">
-    <el-col span="1.5">
+    <el-col :span=1.5>
       <el-button class="elButton" style="width: auto;padding: 0 10px;" icon="el-icon-folder-add" round>
         新建
       </el-button>
     </el-col>
-    <el-col span="1.5">
+    <el-col :span=1.5>
       <el-button icon="el-icon-copy-document" class="elButton" style="width: auto;padding: 0 10px;" round>
         复制
       </el-button>
     </el-col>
-    <el-col span="1.5">
+    <el-col :span=1.5>
       <el-button icon="el-icon-delete" class="elButton" style="width: auto;padding: 0 10px;" round>
         删除
       </el-button>
     </el-col>
-    <el-col span="1.5">
+    <el-col :span=1.5>
       <el-button icon="el-icon-edit" class="elButton" style="width: auto;padding: 0 10px;" round>
         重命名
       </el-button>

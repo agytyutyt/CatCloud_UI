@@ -13,7 +13,7 @@
       <div class="addressBar">
 <!--        <span style="float: left;line-height: 20px;margin-right: 20px;margin-left: 20px;">当前位置: </span>-->
 <!--        <el-breadcrumb separator-class="el-icon-arrow-right" class="el-breadcrumb">-->
-<!--          <el-breadcrumb-item class="my-breadcrumb" v-for="(item,index) in getRoute" :key="index" ><span @click="goBackTo(item)">{{item}}</span></el-breadcrumb-item>-->
+<!--          <el-breadcrumb-item class="my-breadcrumb" v-for="(item,index) in getRoute" :key="index" ><span @click="">{{item}}</span></el-breadcrumb-item>-->
 <!--        </el-breadcrumb>-->
 
           <el-input class="address" v-model="dirPath" placeholder="请输入路径" @keyup.enter.native="enterDir()"  style="height: 20px;">
@@ -45,19 +45,20 @@
     name: "border",
     methods: {
       goBack: function () {
-        this.$parent.$parent.$parent.goBack();
+        // this.$parent.$parent.$parent.goBack();
+        this.$store.commit("lastDir");
+        this.updateDir();
+      },
+      //更新要显示的文件夹信息
+      updateDir: function () {
+        this.$store.dispatch("updateLocalDir");
       },
       goBackTo: function(dirName) {
         this.$store.commit("lastDir",dirName);
       },
-      addressBarFocusIn(){
-        console.log("!!!!");
-      },
-      addressBarFocusOut(){
-        console.log("????");
-      },
       enterDir(){
         this.$store.commit("gotoDir",this.dirPath);
+        this.updateDir();
       }
     },
     data() {
@@ -118,3 +119,4 @@
     margin: 5px 0;
   }
 </style>
+

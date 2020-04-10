@@ -8,17 +8,4 @@ const service = axios.create({
   timeout: 10000,
 });
 
-export default {
-  service: service,
-  methods:{
-    getRemoteDir: function($msg) {
-      let result;
-      service.post("/hello")
-        .then(res => {
-          result=res;
-          return result;
-        });
-
-    }
-}
-};
+export default service;
