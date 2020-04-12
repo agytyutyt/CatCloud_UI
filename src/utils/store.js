@@ -92,7 +92,12 @@ const actions = {
     if(dirName==="") dirName="/";
     service.get("/explorer/getDir?dirname="+dirName,{})
       .then(res => {
-        context.commit("setDir",JSON.stringify(res.data));
+        let data=res.data;
+        for(let i=0;i<data.length;i++){
+          data[i]["selected"]=false;
+          data[i]["edit"]=false;
+        }
+        context.commit("setDir",JSON.stringify(data));
         loadingInstance.close();
       })
       .catch(error => {
