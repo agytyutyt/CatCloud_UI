@@ -1,4 +1,5 @@
 <template>
+  <div>
   <el-row class="border" type="flex" justify="start">
     <el-col :span=1.5>
       <el-button class="elButton" style="width: auto;padding: 0 10px;" icon="el-icon-folder-add" round>
@@ -29,6 +30,7 @@
       </el-switch>
     </el-col>
   </el-row>
+  </div>
 </template>
 
 <script>
@@ -62,6 +64,7 @@
         },
         activeName: 'second',
         listType: true,
+        dialogVisible: false
       }
     },
     computed: {

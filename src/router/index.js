@@ -25,7 +25,7 @@ export default new Router({
     {
       path: '/explorer',
       name: 'explorer',
-      component: explorer_index
+      component: explorer_index,
     },
     {
       path: '/demo',

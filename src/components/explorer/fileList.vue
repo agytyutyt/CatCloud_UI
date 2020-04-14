@@ -12,13 +12,11 @@
             <el-dropdown trigger="click"  class="dropdown-arrow">
               <i class="el-icon-arrow-down"></i>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item icon="el-icon-edit" @click="">重命名</el-dropdown-item>
-                <el-dropdown-item icon="el-icon-edit">重命名</el-dropdown-item>
+                <el-dropdown-item icon="el-icon-edit" @click.native="renameDialog(item.name)">重命名</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
             <div class="file_text">
               {{item.name}}
-              <el-input :v-model="item.name" :placeholder="item.name" style="position: absolute;width: 10%;"></el-input>
             </div>
           </el-button>
         </template>
@@ -28,6 +26,12 @@
           </el-button>
         </template>
       </template>
+<!--      弹窗-->
+      <el-dialog title="重命名" v-if="dialogVisible" @close="refashion()" :visible.sync="dialogVisible" width="" class="dialog dialog_header dialog_body dialog_close dialog_title" top="7vh" append-to-body destroy-on-close center>
+        <div class="dialog_body_div">
+          <component :is="currentDialog" :cancelFunc="switchDialog" :confirmFunc="renameFile" :dialogProps="dialog_props"></component>
+        </div>
+      </el-dialog>
     </el-main>
   </el-container>
 </template>
@@ -35,6 +39,9 @@
 <script>
   import border from "./border";
   import ToolBar from "./ToolBar";
+  import dropdown_rename from "./detailOption/ddown_rename";
+  import dropdown_info from "./detailOption/ddown_info";
+
   let time=null;
   export default {
     name: "fileList",
@@ -66,7 +73,24 @@
       goBack: function () {
         this.$store.commit("lastDir");
       },
+      refashion: function(){
+        console.log("刷新");
+        this.updateDir();
+        this.$forceUpdate()
+      },
+      switchDialog: function () {
+        this.dialogVisible = this.dialogVisible?false:true;
+        if(this.dialogVisible==false){
+          this.refashion();
+        }
+      },
+      renameFile: function () {
 
+      },
+      renameDialog: function (fileName) {
+        this.dialog_props["fileName"]=fileName;
+        this.switchDialog();
+      }
     },
     computed:{
       //从 Vuex 获取当前路径
@@ -96,12 +120,17 @@
         timeOut: 100,
         loading: true,
         selected: [],
-        dir: {}
+        dir: {},
+        dialogVisible: false,
+        currentDialog: "dropdown_rename",
+        dialog_props: [],
       }
     },
     components: {
       border,
-      ToolBar
+      ToolBar,
+      dropdown_rename,
+      dropdown_info
     },
     created() {
       // this.dir=;
@@ -110,20 +139,67 @@
   }
 </script>
 
-<style scoped>
-.el-button {
-  margin-top: 10px;
-  margin-bottom: 10px;
-  margin-left: 15px;
-}
-.el-button-focus{
-  background-color: #409EFF;
-  color: #FFFFFF;
-}
+<style lang="css" scoped>
+  .el-button {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 15px;
+  }
+  .el-button-focus{
+    background-color: #409EFF;
+    color: #FFFFFF;
+  }
   .dropdown-arrow{
     position: absolute;
   }
   .el-header{
     padding: 0;
+  }
+  .file_icon{
+    font-size: 50px;
+  }
+  .file_text{
+    margin-top: 10px;
+    font-size: 15px;
+  }
+  .file_name_edit{
+    position: absolute;
+    width: 10%;
+  }
+
+
+  .dialog >>> .el-dialog{
+    min-width: 600px;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .dialog_header >>> .el-dialog__header{
+    border-bottom: 1px solid #dadada;
+    padding: 5px 30px;
+    background: linear-gradient(to top,#ededed,#ffffff);
+    height: 35px;
+  }
+  .dialog_title >>> .el-dialog__title{
+    font-size: 15px;
+    letter-spacing: 2px;
+    line-height: 30px;
+  }
+  .dialog_body >>> .el-dialog__body{   /*局部覆盖element_ui样式*/
+    padding: 0 20px 20px;
+    margin: 0 0;
+    overflow: auto;
+  }
+  .dialog_close >>> .el-dialog__close{
+    position: absolute;
+    top: -10px;
+    right: 0px;
+    font-size: 20px;
+  }
+  .dialog_body_div{
+    width: 100%;
+    max-height: 70vh;
+    border-top: 1px solid #FFFFFF;
+    padding: 0px 0;
   }
 </style>

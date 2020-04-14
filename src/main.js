@@ -8,6 +8,8 @@ import Vuex from 'vuex'
 Vue.config.productionTip = false;
 Vue.use(Vuex);
 
+// Vue.http.options.emulateJSON = true;
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

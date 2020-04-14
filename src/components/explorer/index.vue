@@ -38,17 +38,11 @@
   }
 </script>
 
-<style>
+<style scoped>
   .head_bar{
     background-color: #409EFF;
     position: relative;
     height: 40px;
   }
-  .file_icon{
-    font-size: 50px;
-  }
-  .file_text{
-    margin-top: 10px;
-    font-size: 15px;
-  }
+
 </style>
