@@ -16,7 +16,8 @@
               <i class="el-icon-arrow-down"></i>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item icon="el-icon-download" @click.native="download(item.name)" v-if="!item.isDir">下载</el-dropdown-item>
-                <el-dropdown-item icon="el-icon-edit" @click.native="copyDialog(item.name)">复制</el-dropdown-item>
+                <el-dropdown-item icon="el-icon-document-copy" @click.native="copyDialog(item.name)">复制</el-dropdown-item>
+                <el-dropdown-item icon="el-icon-position" @click.native="moveDialog(item.name)">移动</el-dropdown-item>
                 <el-dropdown-item icon="el-icon-edit" @click.native="renameDialog(item.name)">重命名</el-dropdown-item>
                 <el-dropdown-item icon="el-icon-delete" @click.native="deleteOption(item)">删除</el-dropdown-item>
                 <el-dropdown-item icon="el-icon-warning-outline" @click.native="infoDialog(item.name)">属性</el-dropdown-item>
@@ -52,6 +53,7 @@
   import dropdown_new from "./detailOption/ddown_new";
   import uploadDialog from "./uploadDialog";
   import copyDialog from "./detailOption/ddown_copy";
+  import ddown_mv from "./detailOption/ddown_mv";
   // import { MessageBox } from 'element-ui';
 
   let time=null;
@@ -187,6 +189,12 @@
         this.dialog_title="复制到";
         this.currentDialog="copyDialog";
         this.switchDialog();
+      },
+      moveDialog: function (fileName) {
+        this.dialog_props["fileName"]=fileName;
+        this.dialog_title="移动到";
+        this.currentDialog="ddown_mv";
+        this.switchDialog();
       }
     },
     computed:{
@@ -237,7 +245,8 @@
       dropdown_info,
       dropdown_new,
       uploadDialog,
-      copyDialog
+      copyDialog,
+      ddown_mv
     },
     created() {
       // this.dir=;
