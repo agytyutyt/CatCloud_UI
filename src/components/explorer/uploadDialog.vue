@@ -2,10 +2,10 @@
   <el-upload
     class="upload-demo"
     ref="upload"
-    :action="'http://localhost:8080/api/upload?'+badge"
+    :action="action"
     :on-preview="handlePreview"
     :on-remove="handleRemove"
-    :file-list="fileList"
+    :with-credentials='true'
     :auto-upload="false">
     <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
     <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
@@ -16,28 +16,38 @@
   export default {
     data() {
       return {
-        fileList: [],
-        badge:""
+        action: "",
+        fileList:[]
       };
     },
     methods: {
       submitUpload() {
-        this.$store.dispatch("test",{})
-          .then(res=>{
-          this.badge="badge=111111111111";
-          // console.log(this.$refs.upload);
+        // console.log(JSON.stringify(this.$children[0]._data.uploadFiles));
 
+        let count=this.$children[0]._data.uploadFiles.length;
+        this.$store.dispatch("uploadRequest",{
+          count: count,
+          size: 0
+        }).then(res=>{
+          this.action="http://localhost:8080/api/upload?badge="+res.data["badge"];
+          console.log(res.data["badge"]);
         }).finally(()=>{
           this.$refs.upload.submit();
-        });
-        // this.badge="asdasda";
-        // this.$refs.upload.submit();
+        })
       },
       handleRemove(file, fileList) {
         console.log(file, fileList);
       },
       handlePreview(file) {
         console.log(file);
+      },
+      submitChange(){
+        this.$refs.upload.submit();
+      }
+    },
+    computed:{
+      getAction(){
+        return this.action;
       }
     }
   }

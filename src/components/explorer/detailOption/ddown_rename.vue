@@ -25,9 +25,6 @@
       switchDialog: function(){
         this.cancelFunc();
       },
-      renameFile: function () {
-        this.confirmFunc();
-      },
       confirmRename: function () {
         let tmp_result=this.$store.dispatch("renameFile",{
           file: this.renameForm.oldName,

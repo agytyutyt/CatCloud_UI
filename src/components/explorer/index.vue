@@ -1,9 +1,9 @@
 <template>
-  <el-container>
+<!--  <el-container>-->
 <!--    <el-header v-bind:style="head_bar_style" id="head_bar" class="head_bar">-->
 <!--      <head_bar></head_bar>-->
 <!--    </el-header>-->
-    <el-container>
+    <el-container style="">
       <el-aside width="201px" style="height: 100vh;">
         <side_bar></side_bar>
       </el-aside>
@@ -11,7 +11,7 @@
         <fileList></fileList>
       </el-main>
     </el-container>
-  </el-container>
+<!--  </el-container>-->
 </template>
 
 <script>

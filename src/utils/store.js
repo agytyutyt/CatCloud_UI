@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import service from './axios'
 import { Loading } from 'element-ui';
 import qs from 'qs'
+import comTtils from "../utils/common"
 import current from "element-ui/packages/table/src/store/current";
 
 Vue.use(Vuex);
@@ -10,38 +11,6 @@ Vue.use(Vuex);
 const state = {
   currentDir: "",
   dir: "",
-    dir1: [
-    {
-      name: "home",
-      selected: "false",
-      isDir: true,
-      children: [
-        {
-          name: "admin",
-          isDir: true,
-          children: [
-            {
-              name: "demo.txt",
-              isDir: false,
-              children: []
-            }
-          ]
-        }
-      ]
-    },
-    {
-      name: "root",
-      selected: "false",
-      isDir: true,
-      children: [
-        {
-          name: "frp",
-          isDir: false,
-          children: []
-        }
-      ]
-    }
-  ],
     dir2: [
     {
       name: "drcat",
@@ -77,7 +46,7 @@ const mutations = {
   },
   setDir(state, dirName){
     state.dir=dirName;
-  }
+  },
 }
 
 const getters= {
@@ -102,6 +71,7 @@ const actions = {
           data[i]["edit"]=false;
         }
         context.commit("setDir",JSON.stringify(data));
+        // this.sortKey(this.dir,"name");
         loadingInstance.close();  //取消加载动效
       })
       .catch(error => {
@@ -127,13 +97,84 @@ const actions = {
     }
     data=qs.stringify(data);
     return {"promise":service.post("/explorer/dirRename",data),"loading":loadingInstance};
+  },
 
-    // service.post("/explorer/dirRename",data)
-    //   .then(res=>{
-    //     return {"res":res.data,"loading":loadingInstance};
-    //   })
+  newFile: function(context,{name,type,pri}){
+    let loadingInstance = Loading.service({});  //启动加载动效
+    let data={
+      name:name,
+      type: type,
+      pri: pri,
+      currentDir:context.state.currentDir
+    }
+    data=qs.stringify(data);
+    // console.log(data);
+    return {"promise":service.post("/explorer/newFile",data),"loading":loadingInstance};
+  },
+
+  deleteFile: function(context,{name,type}){
+    let loadingInstance = Loading.service({});  //启动加载动效
+    let data={
+      name: name,
+      type: type,
+      currentDir:context.state.currentDir
+    }
+    data=qs.stringify(data);
+    // console.log(data);
+    return {"promise":service.post("/explorer/deleteFile",data),"loading":loadingInstance};
+  },
+
+  fileInfo: function(context,{name}){
+    let loadingInstance = Loading.service({});  //启动加载动效
+    let data={
+      name: name,
+      currentDir:context.state.currentDir===""?"/":context.state.currentDir
+    }
+    data=qs.stringify(data);
+    // console.log(data);
+    return {"promise":service.post("/explorer/getFileInfo",data),"loading":loadingInstance};
+  },
+
+  editInfo: function(context, {type,value,file}){
+    let loadingInstance = Loading.service({});  //启动加载动效
+    let data={
+      type: type,
+      value: value,
+      file: file,
+      currentDir:context.state.currentDir===""?"/":context.state.currentDir
+    }
+    data=qs.stringify(data);
+    // console.log(data);
+    return {"promise":service.post("/explorer/editInfo",data),"loading":loadingInstance};
+  },
+
+  refreshFileList: function (context) {
+    context.state.dir="";
+    context.dispatch("updateLocalDir");
+  },
+
+  downloadFile: function (context,{name}) {
+    let loadingInstance = Loading.service({});  //启动加载动效
+    let data={
+      name: name,
+      currentDir:context.state.currentDir===""?"/":context.state.currentDir
+    }
+    data=qs.stringify(data);
+    // console.log(data);
+    return {"promise":service.post("/explorer/downFile",data),"loading":loadingInstance};
+  },
+
+  uploadRequest: function (context,{count,size}) {
+    let data={
+      count: count,
+      size: size
+    }
+    data=qs.stringify(data);
+    return service.post("/explorer/upFile",data);
+  },
+  test: function (context) {
+
   }
-
 }
 
 export default new Vuex.Store({

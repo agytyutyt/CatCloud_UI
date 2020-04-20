@@ -2,7 +2,7 @@
   <div>
   <el-row class="border" type="flex" justify="start">
     <el-col :span=1.5>
-      <el-button class="elButton" style="width: auto;padding: 0 10px;" icon="el-icon-folder-add" round>
+      <el-button @click="newFileDialog" class="elButton" style="width: auto;padding: 0 10px;" icon="el-icon-folder-add" round>
         新建
       </el-button>
     </el-col>
@@ -54,6 +54,9 @@
       },
       handleClick(tab, event) {
         console.log(tab, event);
+      },
+      newFileDialog(){
+        this.$parent.$parent.$parent.newFileDialog();
       }
     },
     data() {
