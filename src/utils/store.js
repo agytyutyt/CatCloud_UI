@@ -174,6 +174,17 @@ const actions = {
   },
   test: function (context) {
 
+  },
+
+  copyFile: function (context,{file,target}) {
+    let loadingInstance = Loading.service({});  //启动加载动效
+    let data={
+      from: context.state.currentDir+"/"+file,
+      to: target
+    }
+    data=qs.stringify(data);
+    console.log(data);
+    return {"promise":service.post("/explorer/copyFile",data),"loading":loadingInstance};
   }
 }
 
