@@ -73,41 +73,7 @@
                 </el-dropdown>
             </template>
           </el-table-column>
-
-<!--          <el-table-column-->
-<!--            label="操作"-->
-<!--            width="60vw">-->
-<!--            <el-dropdown trigger="click"  class="dropdown-arrow">-->
-<!--              <i class="el-icon-arrow-down"></i>-->
-<!--              <el-dropdown-menu slot="dropdown">-->
-<!--&lt;!&ndash;                <el-dropdown-item icon="el-icon-download" @click.native="download(name)" v-if="!isDir">下载</el-dropdown-item>&ndash;&gt;-->
-<!--&lt;!&ndash;                <el-dropdown-item icon="el-icon-document-copy" @click.native="copyDialog(item.name)">复制</el-dropdown-item>&ndash;&gt;-->
-<!--&lt;!&ndash;                <el-dropdown-item icon="el-icon-position" @click.native="moveDialog(item.name)">移动</el-dropdown-item>&ndash;&gt;-->
-<!--&lt;!&ndash;                <el-dropdown-item icon="el-icon-edit" @click.native="renameDialog(item.name)">重命名</el-dropdown-item>&ndash;&gt;-->
-<!--&lt;!&ndash;                <el-dropdown-item icon="el-icon-delete" @click.native="deleteOption(item)">删除</el-dropdown-item>&ndash;&gt;-->
-<!--                <el-dropdown-item icon="el-icon-warning-outline" @click.native="infoDialog(name)">属性</el-dropdown-item>-->
-<!--              </el-dropdown-menu>-->
-<!--            </el-dropdown>-->
-<!--          </el-table-column>-->
         </el-table>
-<!--        <template v-if="item.name[0]!=='.'" v-for="(item,index) in dir">-->
-<!--          <el-button :class="[item.isDir?'el-icon-folder-opened':'el-icon-document',item.selected?'el-button-focus':'','file_icon']" @dblclick.native="enterFile(item)" @click="switchFileState(item)">-->
-<!--            <el-dropdown trigger="click"  class="dropdown-arrow">-->
-<!--              <i class="el-icon-arrow-down"></i>-->
-<!--              <el-dropdown-menu slot="dropdown">-->
-<!--                <el-dropdown-item icon="el-icon-download" @click.native="download(item.name)" v-if="!item.isDir">下载</el-dropdown-item>-->
-<!--                <el-dropdown-item icon="el-icon-document-copy" @click.native="copyDialog(item.name)">复制</el-dropdown-item>-->
-<!--                <el-dropdown-item icon="el-icon-position" @click.native="moveDialog(item.name)">移动</el-dropdown-item>-->
-<!--                <el-dropdown-item icon="el-icon-edit" @click.native="renameDialog(item.name)">重命名</el-dropdown-item>-->
-<!--                <el-dropdown-item icon="el-icon-delete" @click.native="deleteOption(item)">删除</el-dropdown-item>-->
-<!--                <el-dropdown-item icon="el-icon-warning-outline" @click.native="infoDialog(item.name)">属性</el-dropdown-item>-->
-<!--              </el-dropdown-menu>-->
-<!--            </el-dropdown>-->
-<!--            <div class="file_text">-->
-<!--              {{item.name}}-->
-<!--            </div>-->
-<!--          </el-button>-->
-<!--        </template>-->
       </template>
 
 <!--      弹窗-->
