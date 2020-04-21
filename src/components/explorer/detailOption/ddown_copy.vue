@@ -48,6 +48,7 @@
           for(let i=0;i<data.length;i++){
             if(data[i]["isDir"]===false){
               data.splice(i,1);
+              i--;
             }
             else{
               data[i]["children"]=[];
