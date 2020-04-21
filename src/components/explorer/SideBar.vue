@@ -1,38 +1,29 @@
 <template>
-  <el-menu style="background-color: #efefef" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
-    <el-submenu index="1">
-      <div slot="title" class="option_text">
-        <i class="el-icon-folder-opened"></i>
-        <span slot="title">根目录</span>
-      </div>
-      <el-submenu index="1-1">
-        <template slot="title">
-          <i class="el-icon-folder-opened"></i>
-          <span slot="title">bin</span>
-        </template>
-        <el-menu-item index="1-1-1">
-          <template slot="title">
-            <i class="el-icon-files"></i>
-            <span slot="title">ssh</span>
-          </template>
-        </el-menu-item>
-      </el-submenu>
-    </el-submenu>
-    <el-submenu index="2">
-      <template slot="title">
-        <i class="el-icon-folder-opened"></i>
-        <span slot="title">主目录</span>
-      </template>
-      <el-submenu index="2-1">
-        <template slot="title">
-          <i class="el-icon-folder-opened"></i>
-          <span slot="title">admin</span>
-        </template>
-      </el-submenu>
-    </el-submenu>
+<!--  <el-menu-->
+<!--    style="background-color: #efefef"-->
+<!--    class="el-menu-vertical-demo"-->
+<!--    @open="handleOpen"-->
+<!--    @close="handleClose"-->
+<!--    :collapse="isCollapse">-->
+<!--  </el-menu>-->
+
+  <el-menu
+    default-active="home"
+    class="el-menu-vertical-demo"
+    @select="handleSelect"
+    background-color="#545c64"
+    text-color="#fff"
+    active-text-color="#ffd04b">
+
+    <el-menu-item index="home">
+      <i class="el-icon-s-home"></i>
+      <span slot="title">主目录</span>
+    </el-menu-item>
+    <el-menu-item index="root">
+      <i class="el-icon-location"></i>
+      <span slot="title">根目录</span>
+    </el-menu-item>
   </el-menu>
-
-
 </template>
 
 <style>
@@ -47,6 +38,7 @@
 
 <script>
   import sideBarOption from "./SideBarOption"
+  import service from "../../utils/axios";
   export default {
     data() {
       return {
@@ -55,11 +47,22 @@
       };
     },
     methods: {
-      handleOpen(key, keyPath) {
-        console.log(key, keyPath);
-      },
-      handleClose(key, keyPath) {
-        console.log(key, keyPath);
+      handleSelect(key, keyPath) {
+        switch (key) {
+          case "home":{
+            service.get("/api/getHomePath",{})
+            .then(res => {
+              console.log(res.data["dir"]);
+              this.$store.commit("gotoDir",res.data["dir"]);
+              this.$store.dispatch("updateLocalDir");
+            });
+            break;
+          }
+          case "root":{
+            this.$store.commit("gotoDir","/");
+            this.$store.dispatch("updateLocalDir");
+          }
+        }
       }
     },
     components:{

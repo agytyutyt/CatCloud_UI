@@ -61,12 +61,13 @@
     },
     data() {
       return {
+        listType: true,
         dirPath: "",
         form: {
           findFileName:""
         },
         activeName: 'second',
-        listType: true,
+        // listType: true,
         dialogVisible: false
       }
     },
@@ -79,6 +80,9 @@
       getRoute(val){
         if(val==="") this.dirPath="/";
         else this.dirPath=val;
+      },
+      listType(val){
+        this.$parent.$parent.$parent.listType=val;
       }
     },
     created() {

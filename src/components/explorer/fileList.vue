@@ -8,9 +8,9 @@
     </el-header>
 
     <el-main>
-      <el-scrollbar style="height:100%">
-      <template v-for="(item,index) in dir">
-        <template v-if="item.name[0]!=='.'">
+      <el-scrollbar style="height: 100%;">
+      <template v-if="listType">
+        <template v-if="item.name[0]!=='.'" v-for="(item,index) in dir">
           <el-button :class="[item.isDir?'el-icon-folder-opened':'el-icon-document',item.selected?'el-button-focus':'','file_icon']" @dblclick.native="enterFile(item)" @click="switchFileState(item)">
             <el-dropdown trigger="click"  class="dropdown-arrow">
               <i class="el-icon-arrow-down"></i>
@@ -28,12 +28,88 @@
             </div>
           </el-button>
         </template>
-<!--        <template v-else>-->
-<!--          <el-button class="el-icon-document file_icon" plain @dblclick.native="">-->
-<!--            <div class="file_text">{{item.name}}</div>-->
+      </template>
+      <template v-else>
+        <el-table
+          :data="dir"
+          @row-dblclick="enterFile"
+          stripe
+          style="width: 100%">
+          <el-table-column
+            prop="name"
+            label="文件名">
+          </el-table-column>
+          <el-table-column
+            prop="mdfTime"
+            label="日期"
+            width="200vw">
+          </el-table-column>
+          <el-table-column
+            prop="size"
+            label="大小"
+            width="200vw">
+          </el-table-column>
+          <el-table-column
+            prop="type"
+            label="文件类型"
+            width="100vw">
+          </el-table-column>
+
+          <el-table-column
+            fixed="right"
+            label="操作"
+            width="120">
+            <template slot-scope="scope">
+              <el-dropdown trigger="click"  class="dropdown-arrow">
+                <i class="el-icon-arrow-down"></i>
+                  <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item icon="el-icon-download" @click.native="download(dir[scope.$index].name)" v-if="!dir[scope.$index].isDir">下载</el-dropdown-item>
+                    <el-dropdown-item icon="el-icon-document-copy" @click.native="copyDialog(dir[scope.$index].name)">复制</el-dropdown-item>
+                    <el-dropdown-item icon="el-icon-position" @click.native="moveDialog(dir[scope.$index].name)">移动</el-dropdown-item>
+                    <el-dropdown-item icon="el-icon-edit" @click.native="renameDialog(dir[scope.$index].name)">重命名</el-dropdown-item>
+                    <el-dropdown-item icon="el-icon-delete" @click.native="deleteOption(dir[scope.$index])">删除</el-dropdown-item>
+                    <el-dropdown-item icon="el-icon-warning-outline" @click.native="infoDialog(dir[scope.$index].name)">属性</el-dropdown-item>
+                  </el-dropdown-menu>
+                </el-dropdown>
+            </template>
+          </el-table-column>
+
+<!--          <el-table-column-->
+<!--            label="操作"-->
+<!--            width="60vw">-->
+<!--            <el-dropdown trigger="click"  class="dropdown-arrow">-->
+<!--              <i class="el-icon-arrow-down"></i>-->
+<!--              <el-dropdown-menu slot="dropdown">-->
+<!--&lt;!&ndash;                <el-dropdown-item icon="el-icon-download" @click.native="download(name)" v-if="!isDir">下载</el-dropdown-item>&ndash;&gt;-->
+<!--&lt;!&ndash;                <el-dropdown-item icon="el-icon-document-copy" @click.native="copyDialog(item.name)">复制</el-dropdown-item>&ndash;&gt;-->
+<!--&lt;!&ndash;                <el-dropdown-item icon="el-icon-position" @click.native="moveDialog(item.name)">移动</el-dropdown-item>&ndash;&gt;-->
+<!--&lt;!&ndash;                <el-dropdown-item icon="el-icon-edit" @click.native="renameDialog(item.name)">重命名</el-dropdown-item>&ndash;&gt;-->
+<!--&lt;!&ndash;                <el-dropdown-item icon="el-icon-delete" @click.native="deleteOption(item)">删除</el-dropdown-item>&ndash;&gt;-->
+<!--                <el-dropdown-item icon="el-icon-warning-outline" @click.native="infoDialog(name)">属性</el-dropdown-item>-->
+<!--              </el-dropdown-menu>-->
+<!--            </el-dropdown>-->
+<!--          </el-table-column>-->
+        </el-table>
+<!--        <template v-if="item.name[0]!=='.'" v-for="(item,index) in dir">-->
+<!--          <el-button :class="[item.isDir?'el-icon-folder-opened':'el-icon-document',item.selected?'el-button-focus':'','file_icon']" @dblclick.native="enterFile(item)" @click="switchFileState(item)">-->
+<!--            <el-dropdown trigger="click"  class="dropdown-arrow">-->
+<!--              <i class="el-icon-arrow-down"></i>-->
+<!--              <el-dropdown-menu slot="dropdown">-->
+<!--                <el-dropdown-item icon="el-icon-download" @click.native="download(item.name)" v-if="!item.isDir">下载</el-dropdown-item>-->
+<!--                <el-dropdown-item icon="el-icon-document-copy" @click.native="copyDialog(item.name)">复制</el-dropdown-item>-->
+<!--                <el-dropdown-item icon="el-icon-position" @click.native="moveDialog(item.name)">移动</el-dropdown-item>-->
+<!--                <el-dropdown-item icon="el-icon-edit" @click.native="renameDialog(item.name)">重命名</el-dropdown-item>-->
+<!--                <el-dropdown-item icon="el-icon-delete" @click.native="deleteOption(item)">删除</el-dropdown-item>-->
+<!--                <el-dropdown-item icon="el-icon-warning-outline" @click.native="infoDialog(item.name)">属性</el-dropdown-item>-->
+<!--              </el-dropdown-menu>-->
+<!--            </el-dropdown>-->
+<!--            <div class="file_text">-->
+<!--              {{item.name}}-->
+<!--            </div>-->
 <!--          </el-button>-->
 <!--        </template>-->
       </template>
+
 <!--      弹窗-->
       <el-dialog :title="dialog_title" v-if="dialogVisible" @close="refresh()" :visible.sync="dialogVisible" width="" class="dialog dialog_header dialog_body dialog_close dialog_title" top="7vh" append-to-body destroy-on-close center>
         <div class="dialog_body_div">
@@ -60,6 +136,9 @@
   export default {
     name: "fileList",
     methods: {
+      switchListType: function(){
+        this.listType=!this.listType;
+      },
       //转变文件图标为选中状态
       switchFileState: function (item) {
         clearTimeout(time);  //首先清除计时器
@@ -195,6 +274,9 @@
         this.dialog_title="移动到";
         this.currentDialog="ddown_mv";
         this.switchDialog();
+      },
+      testRowClick: function (row) {
+        console.log(row);
       }
     },
     computed:{
@@ -220,6 +302,7 @@
     },
     data() {
       return{
+        listType: true,
         demo: "true",
         baseFileClass: "el-icon-folder-opened file_icon",
         selectedClass: "el-button-focus",
