@@ -31,7 +31,7 @@
       </el-form>
     </el-col>
     <el-col :span="1" :offset="0">
-      <el-button type="primary" icon="el-icon-search" style="height: 30px;width: 30px;margin-top: 5px;padding: 0 0;" circle></el-button>
+      <el-button @click="searchFile" type="primary" icon="el-icon-search" style="height: 30px;width: 30px;margin-top: 5px;padding: 0 0;" circle></el-button>
     </el-col>
   </el-row>
 </template>
@@ -65,6 +65,18 @@
       refresh: function(){
         this.$store.dispatch("refreshFileList");
       },
+      searchFile: function () {
+        if(this.form.findFileName===""){
+          this.$message({
+            type: "warning",
+            message: "请输入要搜索的关键字"
+          });
+        }
+        else{
+          this.$parent.$parent.$parent.dialog_props["findFileName"]=this.form.findFileName;
+          this.function["searchDialog"]();
+        }
+      }
     },
     data() {
       return {

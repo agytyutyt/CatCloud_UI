@@ -168,7 +168,7 @@ const actions = {
     let data={
       count: count,
       size: size
-    }
+    };
     data=qs.stringify(data);
     return service.post("/explorer/upFile",data);
   },
@@ -195,6 +195,14 @@ const actions = {
     data=qs.stringify(data);
     console.log(data);
     return {"promise":service.post("/explorer/moveFile",data),"loading":loadingInstance};
+  },
+  searchFile: function (context,{file}) {
+    let data={
+      file: file,
+      path: "/"
+    };
+    data=qs.stringify(data);
+    return service.post("/api/searchFile",data)
   }
 }
 

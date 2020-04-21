@@ -96,6 +96,7 @@
   import uploadDialog from "./uploadDialog";
   import copyDialog from "./detailOption/ddown_copy";
   import ddown_mv from "./detailOption/ddown_mv";
+  import searchDialog from "./detailOption/searchFile";
   // import { MessageBox } from 'element-ui';
 
   let time=null;
@@ -229,6 +230,11 @@
         this.currentDialog="uploadDialog";
         this.switchDialog();
       },
+      searchDialog: function (){
+        this.dialog_title="搜索";
+        this.currentDialog="searchDialog";
+        this.switchDialog();
+      },
       copyDialog: function (fileName) {
         this.dialog_props["fileName"]=fileName;
         this.dialog_title="复制到";
@@ -283,7 +289,8 @@
         dialog_title: "",
         visible: false,
         borderFunc: {
-          uploadDialog: this.uploadDialog
+          uploadDialog: this.uploadDialog,
+          searchDialog: this.searchDialog
         }
       }
     },
@@ -295,7 +302,8 @@
       dropdown_new,
       uploadDialog,
       copyDialog,
-      ddown_mv
+      ddown_mv,
+      searchDialog
     },
     created() {
       // this.dir=;
