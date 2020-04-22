@@ -94,7 +94,7 @@ const actions = {
       oldName:oldName,
       newName:newName,
       currentDir:context.state.currentDir
-    }
+    };
     data=qs.stringify(data);
     return {"promise":service.post("/explorer/dirRename",data),"loading":loadingInstance};
   },
@@ -118,7 +118,7 @@ const actions = {
       name: name,
       type: type,
       currentDir:context.state.currentDir
-    }
+    };
     data=qs.stringify(data);
     // console.log(data);
     return {"promise":service.post("/explorer/deleteFile",data),"loading":loadingInstance};
@@ -129,7 +129,7 @@ const actions = {
     let data={
       name: name,
       currentDir:context.state.currentDir===""?"/":context.state.currentDir
-    }
+    };
     data=qs.stringify(data);
     // console.log(data);
     return {"promise":service.post("/explorer/getFileInfo",data),"loading":loadingInstance};
@@ -142,7 +142,7 @@ const actions = {
       value: value,
       file: file,
       currentDir:context.state.currentDir===""?"/":context.state.currentDir
-    }
+    };
     data=qs.stringify(data);
     // console.log(data);
     return {"promise":service.post("/explorer/editInfo",data),"loading":loadingInstance};
@@ -158,7 +158,7 @@ const actions = {
     let data={
       name: name,
       currentDir:context.state.currentDir===""?"/":context.state.currentDir
-    }
+    };
     data=qs.stringify(data);
     // console.log(data);
     return {"promise":service.post("/explorer/downFile",data),"loading":loadingInstance};
@@ -181,7 +181,7 @@ const actions = {
     let data={
       from: context.state.currentDir+"/"+file,
       to: target
-    }
+    };
     data=qs.stringify(data);
     console.log(data);
     return {"promise":service.post("/explorer/copyFile",data),"loading":loadingInstance};
@@ -191,7 +191,7 @@ const actions = {
     let data={
       from: context.state.currentDir+"/"+file,
       to: target
-    }
+    };
     data=qs.stringify(data);
     console.log(data);
     return {"promise":service.post("/explorer/moveFile",data),"loading":loadingInstance};
@@ -203,8 +203,12 @@ const actions = {
     };
     data=qs.stringify(data);
     return service.post("/api/searchFile",data)
+  },
+
+  checkLogin: function (context) {
+    return service.get("/api/checkLogin",{});
   }
-}
+};
 
 export default new Vuex.Store({
   state,

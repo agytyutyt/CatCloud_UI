@@ -44,6 +44,15 @@
           Docs for This Template
         </a>
       </li>
+      <br>
+      <li>
+        <a
+          href="demo"
+          target="_self"
+        >
+          Demo
+        </a>
+      </li>
     </ul>
     <h2>Ecosystem</h2>
     <ul>

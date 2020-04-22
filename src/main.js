@@ -4,6 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import Vuex from 'vuex'
+import "./router/privilege"
 
 Vue.config.productionTip = false;
 Vue.use(Vuex);
@@ -17,3 +18,4 @@ new Vue({
   components: { App },
   template: '<App/>'
 })
+

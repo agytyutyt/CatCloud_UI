@@ -46,7 +46,12 @@ const PrivilegeUtils = {
 
     let result = {"owner":owner, "group":group, "other":other};
     return result;
+  },
+
+  checkLogin: function () {
+    this.$store.dispatch("checkLogin",{})
+      .then();
   }
-}
+};
 
 export default PrivilegeUtils;
