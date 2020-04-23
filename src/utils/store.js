@@ -9,19 +9,19 @@ import current from "element-ui/packages/table/src/store/current";
 Vue.use(Vuex);
 
 const state = {
+  user: {
+    name:"",
+    home:"",
+  },
   currentDir: "",
   dir: "",
-    dir2: [
-    {
-      name: "drcat",
-      selected: "false",
-      isDir: true,
-      children: []
-    }
-  ]
 }
 
 const mutations = {
+  setUser(state, {name,home}){
+    state.user.name=name;
+    state.user.home=home;
+  },
   enterDir(state, dirName){
     state.currentDir+=("/"+dirName);    //改变当前路径
     //改变当前dir值
@@ -55,10 +55,23 @@ const getters= {
   },
   getCurrentDir: state => {
     return state.currentDir===""?"/":state.currentDir;
+  },
+  getUserName: state => {
+    return state.user.name;
   }
 }
 
 const actions = {
+  login: function(context,{username,password}){
+    let loadingInstance = Loading.service({});  //启动加载动效
+    let data={
+      username: username,
+      password: password
+    };
+    data=qs.stringify(data);
+    // console.log(data);
+    return {"promise":service.post("/login/checkAccount",data),"loading":loadingInstance};
+  },
   updateLocalDir(context){
     let loadingInstance = Loading.service({});  //启动加载动效
     let dirName=context.state.currentDir;
@@ -207,6 +220,9 @@ const actions = {
 
   checkLogin: function (context) {
     return service.get("/api/checkLogin",{});
+  },
+  getDiskInfo: function (context) {
+    return service.get("/api/getDiskInfo",{});
   }
 };
 

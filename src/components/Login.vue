@@ -22,13 +22,13 @@
         </el-col>
         <el-col :span="16">
           <div style="line-height: 40px;">
-            <el-input placeholder="请输入密码" v-model="password" show-password></el-input>
+            <el-input @keyup.enter.native="login" placeholder="请输入密码" v-model="password" show-password></el-input>
           </div>
         </el-col>
       </el-row>
 
       <el-row style="float: right;margin-right: 17px;">
-        <el-button type="primary" plain v-on:click="check">登录</el-button>
+        <el-button type="primary" plain v-on:click="login">登录</el-button>
       </el-row>
     </div>
   </div>
@@ -44,6 +44,39 @@
       }
     },
     methods: {
+      login: function () {
+        let tmp_result=this.$store.dispatch("login",{
+          username: this.username,
+          password: this.password
+        });
+        tmp_result.then(resolve=>{    //处理dispatch 返回的promise对象
+          //loading为加载页面的处理对象
+          resolve.loading.close();
+          //promise为axios的promise对象
+          resolve.promise.then(res=>{   //处理axios 返回的promise对象
+            if(res.data["output"]===true){
+              this.$message({
+                message: '登录成功！',
+                type: 'success'
+              });
+              let dirName=res.data["home"];
+              this.$store.commit("gotoDir",dirName);
+              this.$store.commit("setUser",{
+                name: res.data["name"],
+                home: res.data["home"]
+              });
+              this.$router.push({path:'/explorer'});
+            }
+            else{
+              this.$message({
+                message: '用户名或密码错误！',
+                type: 'error'
+              });
+            }
+          });
+
+        });
+      },
       check: function () {
         alert("!!!!!!");
       }

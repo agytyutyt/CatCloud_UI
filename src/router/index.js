@@ -15,22 +15,34 @@ export default new Router({
     {
       path: '/',
       name: 'HelloWorld',
-      component: HelloWorld
+      component: HelloWorld,
+      meta: {
+        needLogin: true
+      }
     },
     {
     	path: '/login',
     	name: 'login',
-    	component: Login
+    	component: Login,
+      meta: {
+        needLogin: false
+      }
     },
     {
       path: '/explorer',
       name: 'explorer',
       component: explorer_index,
+      meta: {
+        needLogin: true
+      }
     },
     {
       path: '/demo',
       name: 'demo',
-      component: demo
+      component: demo,
+      meta: {
+        needLogin: false
+      }
     }
   ]
 });

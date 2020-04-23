@@ -23,6 +23,20 @@
       <i class="el-icon-location"></i>
       <span slot="title">根目录</span>
     </el-menu-item>
+    <el-menu-item index="info" style="position: absolute;bottom: 0px;width: 100%;" @click="">
+
+      <el-popover
+        placement="right"
+        :title="getUserName"
+        width="500"
+        trigger="hover">
+        <userInfo></userInfo>
+        <div slot="reference">
+          <i class="el-icon-warning-outline"></i>
+          <span>更多</span>
+        </div>
+      </el-popover>
+    </el-menu-item>
   </el-menu>
 </template>
 
@@ -30,6 +44,7 @@
   .el-menu-vertical-demo:not(.el-menu--collapse) {
     width: 200px;
     height: 100%;
+    overflow: hidden;
   }
   .option_text{
     color: #409EFF;
@@ -39,6 +54,7 @@
 <script>
   import sideBarOption from "./SideBarOption"
   import service from "../../utils/axios";
+  import userInfo from "./userInfo";
   export default {
     data() {
       return {
@@ -65,8 +81,16 @@
         }
       }
     },
+    computed: {
+      getUserName(){
+        return this.$store.getters.getUserName;
+      }
+    },
     components:{
-      sideBarOption
+      sideBarOption,
+      userInfo
+    },
+    created() {
     }
   }
 </script>
