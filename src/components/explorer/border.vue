@@ -110,7 +110,9 @@
     border-bottom: 1px solid #e5e5e5;
     height: 40px;
     padding: 0 20px;
+    margin: 0 0;
     background: linear-gradient(to top,#ebebeb,#ffffff);
+    /*width: calc(100vw - 196px);*/
     width: 100%;
   }
   .el-button-group{

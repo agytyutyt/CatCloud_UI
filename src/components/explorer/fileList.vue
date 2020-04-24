@@ -1,4 +1,5 @@
 <template>
+  <div style="overflow: hidden; height: 100vh;">
   <el-container>
     <el-header style="height: auto;padding: 0;">
       <div @contextmenu.prevent>
@@ -7,8 +8,10 @@
       </div>
     </el-header>
 
-    <el-main>
-      <el-scrollbar style="height: 100%;">
+    <el-main style="padding: 0 0;">
+
+      <el-scrollbar class="my-scrollbar" style="height:100%;width: 100%">
+        <div style="max-height: calc(100vh - 100px);padding: 10px;">
       <template v-if="listType">
         <template v-if="item.name[0]!=='.'" v-for="(item,index) in dir">
           <el-button :class="[item.isDir?'el-icon-folder-opened':'el-icon-document',item.selected?'el-button-focus':'','file_icon']" @dblclick.native="enterFile(item)" @click="switchFileState(item)">
@@ -75,16 +78,18 @@
           </el-table-column>
         </el-table>
       </template>
-
 <!--      弹窗-->
       <el-dialog :title="dialog_title" v-if="dialogVisible" @close="refresh()" :visible.sync="dialogVisible" width="" class="dialog dialog_header dialog_body dialog_close dialog_title" top="7vh" append-to-body destroy-on-close center>
         <div class="dialog_body_div">
           <component :is="currentDialog" :cancelFunc="switchDialog" :confirmFunc="renameFile" :dialogProps="dialog_props"></component>
         </div>
       </el-dialog>
+        </div>
       </el-scrollbar>
+
     </el-main>
   </el-container>
+  </div>
 </template>
 
 <script>
@@ -313,6 +318,14 @@
 </script>
 
 <style lang="css" scoped>
+  .my-scrollbar >>> .el-scrollbar__wrap{
+    overflow-x: hidden;
+  }
+
+  .my-mainBody >>> .el-main{
+    padding: 0 0;
+  }
+
   .el-button {
     margin-top: 10px;
     margin-bottom: 10px;
@@ -330,6 +343,7 @@
   }
   .file_icon{
     font-size: 50px;
+    position: relative;
   }
   .file_text{
     margin-top: 10px;
