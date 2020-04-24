@@ -52,6 +52,7 @@
 <script>
   import sideBarOption from "./SideBarOption"
   import service from "../../utils/axios";
+  import qs from 'qs';
   import userInfo from "./userInfo";
   export default {
     data() {
@@ -64,11 +65,22 @@
       handleSelect(key, keyPath) {
         switch (key) {
           case "home":{
-            service.get("/api/getHomePath",{})
+            let data={
+              user: this.getUserName
+            };
+            data=qs.stringify(data);
+            service.post("/api/getHomePath",data)
             .then(res => {
-              console.log(res.data["dir"]);
-              this.$store.commit("gotoDir",res.data["dir"]);
-              this.$store.dispatch("updateLocalDir");
+              if(res.data["exist"]===true){
+                this.$store.commit("gotoDir",res.data["home"]);
+                this.$store.dispatch("updateLocalDir");
+              }
+              else{
+                this.$message({
+                  message: "目录不存在",
+                  type: "error"
+                });
+              }
             });
             break;
           }
