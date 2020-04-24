@@ -24,10 +24,8 @@
       <span slot="title">根目录</span>
     </el-menu-item>
     <el-menu-item index="info" style="position: absolute;bottom: 0px;width: 100%;" @click="">
-
       <el-popover
         placement="right"
-        :title="getUserName"
         width="500"
         trigger="hover">
         <userInfo></userInfo>
@@ -79,7 +77,7 @@
             this.$store.dispatch("updateLocalDir");
           }
         }
-      }
+      },
     },
     computed: {
       getUserName(){

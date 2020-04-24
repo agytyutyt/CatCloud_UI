@@ -140,7 +140,7 @@
       },
       switchDialog: function () {
         this.dialogVisible = !this.dialogVisible;
-        if(this.dialogVisible==false){
+        if(this.dialogVisible===false){
           this.refresh();
         }
       },
