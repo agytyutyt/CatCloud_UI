@@ -22,6 +22,9 @@ const mutations = {
     state.user.name=name;
     state.user.home=home;
   },
+  setUser_obj(state, user){
+    state.user=user;
+  },
   enterDir(state, dirName){
     state.currentDir+=("/"+dirName);    //改变当前路径
     //改变当前dir值
@@ -44,8 +47,8 @@ const mutations = {
   gotoDir(state, dirName){
     state.currentDir=dirName;
   },
-  setDir(state, dirName){
-    state.dir=dirName;
+  setDir(state, dir){
+    state.dir=dir;
   },
 }
 
@@ -58,6 +61,12 @@ const getters= {
   },
   getUserName: state => {
     return state.user.name;
+  },
+  getUser: state => {
+    return state.user;
+  },
+  getDir: state => {
+    return state.dir;
   }
 }
 
@@ -76,6 +85,7 @@ const actions = {
     let loadingInstance = Loading.service({});  //启动加载动效
     let dirName=context.state.currentDir;
     if(dirName==="") dirName="/";
+    // console.log("updateLocalDir=========="+dirName);
     service.get("/explorer/getDir?dirname="+dirName,{})
       .then(res => {
         let data=res.data;

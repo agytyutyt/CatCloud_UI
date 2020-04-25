@@ -34,6 +34,39 @@
       test(){
         document.querySelector('#')
       }
+    },
+    created() {
+      let userName=sessionStorage["userName"];
+      let userHome=sessionStorage["userHome"];
+      let currentDir=sessionStorage["currentDir"];
+      // let dir=sessionStorage["dir"];
+      if(userName && userName!=="" && userHome && userHome!==""){
+        this.$store.commit("setUser",{
+          name: userName,
+          home: userHome
+        });
+      }
+      if(currentDir && currentDir!==""){
+        this.$store.commit("gotoDir",currentDir);
+      }
+      // if(dir && dir.length>0){
+      //   this.$store.commit("setDir",dir);
+      // }
+      // window.onbeforeunload = function(e){ //刷新前确认
+      //   var msg="真的要离开么？";
+      //   e.returnValue=msg;
+      //   return msg;
+      // };
+      window.addEventListener("beforeunload",()=>{
+        let user=this.$store.getters.getUser;
+        let currentDir=this.$store.getters.getCurrentDir;
+        // let dir=this.$store.getters.getDir;
+        sessionStorage.setItem("userName",user["name"]);
+        sessionStorage.setItem("userHome",user["home"]);
+        sessionStorage.setItem("currentDir",currentDir);
+        // sessionStorage.setItem("setDir",dir);
+      });
+      // window.addEventListener(("onunload"));
     }
   }
 </script>

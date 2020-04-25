@@ -269,10 +269,12 @@
     watch: {
       //监听路径变化信息
       getCurrentPath(val){
+        this.updateDir();
       },
       //监听要展示的文件夹信息变化
       getCurrentDir(val){
         if(val!==""){
+
           this.dir=JSON.parse(val);
         }
       }
