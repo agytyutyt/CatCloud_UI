@@ -15,6 +15,7 @@
 
 </template>
 <script>
+  import tar from "../plugin/main/untar.js";
   export default {
     data() {
       return {
@@ -24,6 +25,9 @@
     },
     methods: {
 
+    },
+    created() {
+      console.log(tar.visible());
     }
   }
 </script>

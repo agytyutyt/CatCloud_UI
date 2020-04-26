@@ -24,6 +24,8 @@
                 <el-dropdown-item icon="el-icon-edit" @click.native="renameDialog(item.name)">重命名</el-dropdown-item>
                 <el-dropdown-item icon="el-icon-delete" @click.native="deleteOption(item)">删除</el-dropdown-item>
                 <el-dropdown-item icon="el-icon-warning-outline" @click.native="infoDialog(item.name)">属性</el-dropdown-item>
+                <el-dropdown-item divided disabled>插件</el-dropdown-item>
+                <el-dropdown-item v-for="(plugin,p_index) in plugins" v-if="plugin.visible(item)" @click.native="plugin.atClick(item)" :key="p_index">{{plugin.name}}</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
             <div class="file_text">
@@ -84,6 +86,11 @@
           <component :is="currentDialog" :cancelFunc="switchDialog" :confirmFunc="renameFile" :dialogProps="dialog_props"></component>
         </div>
       </el-dialog>
+          <el-dialog v-if="pluginVisible" @close="refresh()" :visible.sync="pluginVisible" width="" class="dialog dialog_header dialog_body" top="7vh" append-to-body destroy-on-close center>
+            <div class="dialog_body_div">
+              <component :is="currentPlugin" :cancelFunc="switchDialog" :confirmFunc="renameFile" :dialogProps="plugin_props"></component>
+            </div>
+          </el-dialog>
         </div>
       </el-scrollbar>
 
@@ -102,6 +109,7 @@
   import copyDialog from "./detailOption/ddown_copy";
   import ddown_mv from "./detailOption/ddown_mv";
   import searchDialog from "./detailOption/searchFile";
+  import untar from "../../plugin/main/untar";
   // import { MessageBox } from 'element-ui';
 
   let time=null;
@@ -298,7 +306,12 @@
         borderFunc: {
           uploadDialog: this.uploadDialog,
           searchDialog: this.searchDialog
-        }
+        },
+        plugins: [],
+        plugin_title: "",
+        pluginVisible: false,
+        currentPlugin: "",
+        plugin_props: [],
       }
     },
     components: {
@@ -315,6 +328,15 @@
     created() {
       // this.dir=;
       this.updateDir();
+      let store=this.$store;
+      let plugin={
+        name: untar.name,
+        visible: untar.visible,
+        atClick: function (item) {
+          untar.atClick(store,item);
+        },
+      };
+      this.plugins.push(plugin);
     }
   }
 </script>
