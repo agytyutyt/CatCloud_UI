@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import service from './axios'
 import { Loading } from 'element-ui';
 import qs from 'qs'
+import { Message } from 'element-ui';
 import comTtils from "../utils/common"
 import current from "element-ui/packages/table/src/store/current";
 
@@ -89,11 +90,20 @@ const actions = {
     service.get("/explorer/getDir?dirname="+dirName,{})
       .then(res => {
         let data=res.data;
-        for(let i=0;i<data.length;i++){
-          data[i]["selected"]=false;
-          data[i]["edit"]=false;
+        if(data["error"]){
+          Message({
+            message: '目录不存在',
+            type: 'error'
+          });
         }
-        context.commit("setDir",JSON.stringify(data));
+        else{
+          for(let i=0;i<data.length;i++){
+            data[i]["selected"]=false;
+            data[i]["edit"]=false;
+          }
+          context.commit("setDir",JSON.stringify(data));
+        }
+
         // this.sortKey(this.dir,"name");
         loadingInstance.close();  //取消加载动效
       })
