@@ -6,6 +6,7 @@ import HelloWorld from '@/components/HelloWorld'
 import explorer_index from '@/components/explorer/index'
 import Login from '@/components/Login'
 import demo from "../components/demo";
+import Share from "../components/Share"
 
 Vue.use(Router);
 Vue.use(ElementUI);
@@ -14,10 +15,10 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld,
+      name: 'Share',
+      component: Share,
       meta: {
-        needLogin: true
+        needLogin: false
       }
     },
     {
