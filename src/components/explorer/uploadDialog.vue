@@ -13,6 +13,7 @@
   </el-upload>
 </template>
 <script>
+  import props from "../../properties"
   export default {
     data() {
       return {
@@ -29,7 +30,7 @@
           count: count,
           size: 0
         }).then(res=>{
-          this.action="http://localhost:8080/api/upload?badge="+res.data["badge"];
+          this.action="http://"+props.props.baseIP+"/api/upload?badge="+res.data["badge"];
           console.log(res.data["badge"]);
         }).finally(()=>{
           this.$refs.upload.submit();
